@@ -1,0 +1,8 @@
+{
+  "id": "06-saude-nao-sensivel",
+  "tipo": "curto",
+  "entrada": "A recepção precisa ver a fila de atendimento do dia ordenada por prioridade e horário de chegada, destacando quem espera há mais de 30 minutos.",
+  "esperado": {
+    "gherkinMin": 2
+  }
+}

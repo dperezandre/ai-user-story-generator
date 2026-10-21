@@ -1,0 +1,203 @@
+{
+  "titulo": "Código único de procedimentos e tabelas negociadas por convênio",
+  "objetivo": "Permitir que os médicos solicitem exames e procedimentos por meio de um código único padronizado e disponibilizar uma tela administrativa para parametrizar o relacionamento (de-para) entre esse código único e as tabelas negociadas com cada convênio, garantindo consistência entre as áreas assistenciais e o faturamento.",
+  "justificativa": "Padronizar códigos e tabelas para reduzir inconsistências; diminuir erros e retrabalho nas solicitações de exames e procedimentos; ampliar a receita ao permitir a prescrição de exames e procedimentos ainda não negociados; e dar mais clareza aos setores de Laboratório e Diagnóstico para executarem corretamente o que foi solicitado.",
+  "areasImpactadas": [
+    "Vita Prescrição Internação",
+    "Vita Prescrição Pronto-Socorro",
+    "Vita Faturamento",
+    "Vita Diagnóstico",
+    "Tela de parâmetros (PARAM)",
+    "Tela de cadastro de códigos (TCOD)",
+    "Áreas assistenciais (Laboratório e Diagnóstico)"
+  ],
+  "historias": [
+    {
+      "id": "H1",
+      "titulo": "Chave liga/desliga da funcionalidade por unidade",
+      "resumo": "Criar na tela de parâmetros (PARAM) uma propriedade com o código da unidade e a chave de ativação, permitindo habilitar ou desabilitar a funcionalidade de código único individualmente por unidade.",
+      "origem": "4.1 Chave liga/desliga por unidade",
+      "dependeDe": []
+    },
+    {
+      "id": "H2",
+      "titulo": "Estrutura da tela administrativa com abas Procedimento Unificado e Procedimento Unificado – Pacote",
+      "resumo": "Disponibilizar a nova tela administrativa de parametrização com as duas abas, servindo de base para os cadastros e mapeamentos das demais histórias.",
+      "origem": "4.2 Tela administrativa de parametrização",
+      "dependeDe": [
+        "H1"
+      ]
+    },
+    {
+      "id": "H3",
+      "titulo": "Cadastro do procedimento unificado (aba Procedimento Unificado – Bloco 1)",
+      "resumo": "Permitir cadastrar o procedimento unificado com status (ativo/inativo), classe do exame/procedimento (lista suspensa), permissão de prescrição (Pronto-Socorro, Internação ou Ambos), ID numérico único e nome exibido à equipe médica na prescrição.",
+      "origem": "4.3 Aba Procedimento Unificado – Bloco 1",
+      "dependeDe": [
+        "H2"
+      ]
+    },
+    {
+      "id": "H4",
+      "titulo": "Mapeamento de-para por convênio (CBHPM, AMB, TUSS e código fictício)",
+      "resumo": "Permitir associar o procedimento unificado aos códigos CBHPM, AMB, TUSS e código fictício, para fins de prescrição, faturamento e auditoria.",
+      "origem": "4.3 Aba Procedimento Unificado – Bloco 2",
+      "dependeDe": [
+        "H3"
+      ]
+    },
+    {
+      "id": "H5",
+      "titulo": "Validação dos códigos contra a TCOD com mensagem de erro",
+      "resumo": "Validar que todos os códigos informados (CBHPM, AMB, TUSS e fictício) existam previamente na TCOD e exibir mensagem de erro quando o código não for encontrado.",
+      "origem": "4.3 Regras de validação",
+      "dependeDe": [
+        "H4"
+      ]
+    },
+    {
+      "id": "H6",
+      "titulo": "Auditoria de cadastro e alteração (usuário e data de registro)",
+      "resumo": "Preencher e gravar automaticamente o usuário (login de quem cadastrou ou alterou por último) e a data de registro na gravação do mapeamento, para fins de auditoria.",
+      "origem": "4.3 Bloco 2 (campos Usuário e Data de registro) e Regras de validação",
+      "dependeDe": [
+        "H4"
+      ]
+    },
+    {
+      "id": "H7",
+      "titulo": "Cadastro do procedimento unificado do tipo Pacote (aba Procedimento Unificado – Pacote – Bloco 1)",
+      "resumo": "Permitir cadastrar o procedimento unificado de pacote com status, classe, permissão de prescrição, ID numérico único e nome exibido à equipe médica.",
+      "origem": "4.4 Aba Procedimento Unificado – Pacote – Bloco 1",
+      "dependeDe": [
+        "H2"
+      ]
+    },
+    {
+      "id": "H8",
+      "titulo": "Vínculo de múltiplos exames a um pacote com mapeamento individual por convênio",
+      "resumo": "Permitir vincular vários exames a um único pacote, que funciona como agrupador lógico, mantendo o vínculo individual de cada exame com seus códigos nas tabelas dos convênios.",
+      "origem": "4.4 Aba Procedimento Unificado – Pacote – Bloco 2",
+      "dependeDe": [
+        "H3",
+        "H4",
+        "H7"
+      ]
+    },
+    {
+      "id": "H9",
+      "titulo": "Prescrição por código único nos sistemas de Prescrição (Internação e Pronto-Socorro)",
+      "resumo": "Permitir que os médicos solicitem exames e procedimentos pelo código único padronizado, exibindo o nome do procedimento, respeitando o status ativo e a permissão de prescrição (Pronto-Socorro, Internação ou Ambos) e a chave da unidade.",
+      "origem": "1. Objetivo; 4.3 Bloco 1 (Status, Permissão de prescrição, Nome)",
+      "dependeDe": [
+        "H1",
+        "H3",
+        "H4"
+      ]
+    },
+    {
+      "id": "H10",
+      "titulo": "Uso do de-para pelo Faturamento e pelo Diagnóstico",
+      "resumo": "Fazer com que Vita Faturamento e Vita Diagnóstico utilizem o relacionamento entre o código único e as tabelas dos convênios para faturar e executar corretamente o que foi solicitado, inclusive procedimentos ainda não negociados.",
+      "origem": "1. Objetivo; 2. Justificativa (Receita e Assistência); 3. Sistemas impactados",
+      "dependeDe": [
+        "H4",
+        "H9"
+      ]
+    }
+  ],
+  "lacunas": [
+    {
+      "trecho": "1 – Laboratório / 2 – Laboratório",
+      "problema": "Duas classes distintas (1 e 2) possuem o mesmo nome 'Laboratório', e o mesmo ocorre com 7 e 8 – Procedimentos. Não está claro o que diferencia cada classe.",
+      "pergunta": "Qual a diferença entre as classes 1 e 2 (Laboratório) e entre 7 e 8 (Procedimentos)? Os nomes estão corretos ou há erro de digitação (ex.: Laboratório Interno/Externo)? Por que não existem classes 4, 5 e 6?"
+    },
+    {
+      "trecho": "Aba Procedimento Unificado – Pacote: Bloco 1 — Cadastro do procedimento unificado (idêntico ao da aba anterior)",
+      "problema": "O Bloco 1 da aba Pacote repete integralmente o da aba Procedimento Unificado. Não é claro se é uma duplicação do documento ou se há campos específicos de pacote.",
+      "pergunta": "O cadastro do pacote tem exatamente os mesmos campos do procedimento unificado ou existem campos próprios (ex.: lista de exames, valor)? Procedimento e pacote compartilham a mesma numeração de ID?"
+    },
+    {
+      "trecho": "Bloco 2 do Pacote: 'Associa o procedimento unificado aos códigos das tabelas dos convênios...'",
+      "problema": "O texto de mapeamento do pacote também é copiado da outra aba, e não lista os campos (CBHPM, AMB, TUSS, código fictício, usuário, data de registro). Não está dito se o pacote tem código próprio por tabela ou se só os exames têm.",
+      "pergunta": "No pacote, o de-para é feito apenas por exame ou também para o pacote como um todo? Os campos e as validações contra a TCOD são os mesmos da aba Procedimento Unificado?"
+    },
+    {
+      "trecho": "O sistema deve permitir vincular múltiplos exames a um único pacote",
+      "problema": "Não há limite de exames por pacote, nem regra sobre se um exame pode pertencer a mais de um pacote, se o exame precisa ser um procedimento unificado ativo, ou como fica a prescrição/faturamento (pacote como item único ou exames separados).",
+      "pergunta": "Há quantidade mínima/máxima de exames por pacote? Um exame pode estar em vários pacotes? Na prescrição, o médico seleciona o pacote e o sistema desdobra em exames? Como o faturamento cobra (valor do pacote ou por exame)?"
+    },
+    {
+      "trecho": "Código fictício: código alternativo usado para controle.",
+      "problema": "O termo 'código fictício' não está definido: finalidade, formato, quem o utiliza e como se relaciona com os demais códigos.",
+      "pergunta": "O que é o código fictício, em que casos é usado e qual o formato? É obrigatório? Também é validado na TCOD?"
+    },
+    {
+      "trecho": "CBHPM: código conforme a tabela CBHPM. / AMB / TUSS",
+      "problema": "Não está dito se os campos de código são obrigatórios, se é necessário preencher ao menos um, se aceitam mais de um código por tabela, ou se o mapeamento é por convênio específico (o título fala em 'tabelas negociadas por convênio', mas não há campo de convênio).",
+      "pergunta": "Quais campos do de-para são obrigatórios? O mapeamento é por convênio (qual o campo que identifica o convênio) ou global por tabela? Um procedimento pode ter mais de um código na mesma tabela?"
+    },
+    {
+      "trecho": "Todos os códigos (CBHPM, AMB, TUSS e fictício) devem existir previamente na tela de cadastro de códigos (TCOD).",
+      "problema": "A mensagem de erro não tem texto definido. Também não está claro se a TCOD será alterada, se é permitido gravar parcialmente, e como tratar códigos na TCOD inativos.",
+      "pergunta": "Qual o texto exato da mensagem de erro? A gravação é bloqueada por completo quando um código é inválido? O que ocorre com códigos inativos na TCOD?"
+    },
+    {
+      "trecho": "ID do procedimento: código numérico interno único.",
+      "problema": "Não está definido se o ID é gerado automaticamente ou digitado, faixa/tamanho, nem a regra para duplicidade ou para nome repetido.",
+      "pergunta": "O ID é gerado pelo sistema ou informado pelo usuário? Qual o tamanho máximo? O nome do procedimento pode se repetir? Há limite de caracteres para o nome?"
+    },
+    {
+      "trecho": "Status: ativo ou inativo. Define se o procedimento fica disponível para prescrição.",
+      "problema": "Não há regra sobre o que acontece com prescrições já feitas, pacotes que contêm o procedimento ou solicitações em andamento quando um procedimento é inativado. Também não há regra de exclusão.",
+      "pergunta": "Ao inativar um procedimento, o que ocorre com prescrições existentes e com pacotes que o incluem? É permitido excluir registros ou só inativar?"
+    },
+    {
+      "trecho": "Permissão de prescrição: Pronto-Socorro, Internação ou Ambos.",
+      "problema": "Não está claro como a permissão interage com a chave por unidade, nem se há outros perfis/permissões de acesso à nova tela administrativa (quem pode cadastrar e alterar).",
+      "pergunta": "Quais perfis de usuário podem acessar e editar a tela administrativa? A permissão de prescrição é validada nos dois sistemas de Prescrição?"
+    },
+    {
+      "trecho": "Criar, na tela de parâmetros (PARAM), uma propriedade com uma chave de liga/desliga",
+      "problema": "Não é definido o comportamento dos sistemas quando a chave está desligada (continua o fluxo atual?), nem o padrão inicial para unidades existentes, nem se a própria tela administrativa fica oculta.",
+      "pergunta": "Com a chave desligada, a prescrição segue o fluxo atual? Qual o valor padrão para cada unidade? A tela administrativa fica visível independentemente da chave?"
+    },
+    {
+      "trecho": "Receita: permitir que médicos prescrevam exames e procedimentos ainda não negociados",
+      "problema": "O documento não explica como um procedimento sem negociação (sem código na tabela do convênio) é prescrito, executado e faturado, nem se haverá alerta ao médico ou ao faturamento.",
+      "pergunta": "Como deve se comportar o sistema quando o procedimento não tem código na tabela do convênio do paciente? Haverá aviso ao médico? Como o faturamento trata esse caso?"
+    },
+    {
+      "trecho": "3. Sistemas impactados: Vita Prescrição Internação, Vita Prescrição Pronto-Socorro, Vita Faturamento, Vita Diagnóstico",
+      "problema": "Os requisitos detalhados (seção 4) só descrevem a tela administrativa e a chave. Não há requisitos funcionais para as mudanças em Prescrição, Faturamento e Diagnóstico, nem para integração e interface entre sistemas.",
+      "pergunta": "Quais mudanças específicas são esperadas em cada um dos quatro sistemas (telas, mensagens, integrações, relatórios)? Como a informação do de-para chega a cada sistema?"
+    },
+    {
+      "trecho": "Usuário: preenchido automaticamente com o login de quem cadastrou ou alterou por último.",
+      "problema": "Só o último usuário é guardado; não está claro se é necessário histórico completo de alterações (log de auditoria), nem o formato de data/hora.",
+      "pergunta": "A auditoria precisa de histórico de todas as alterações ou apenas do último registro? A data de registro inclui hora? Existe necessidade de consulta/relatório de auditoria?"
+    },
+    {
+      "trecho": "Migração e carga inicial (não mencionado)",
+      "problema": "O documento não trata da carga inicial dos procedimentos e códigos existentes, nem da convivência com os códigos atuais usados nas prescrições.",
+      "pergunta": "Haverá carga/migração inicial dos procedimentos e do de-para atuais? Como tratar prescrições e faturamentos já existentes com os códigos antigos?"
+    },
+    {
+      "trecho": "Documento de requisitos: 'documento fictício' / Versão 1.0",
+      "problema": "Não há critérios de aceite, indicadores de sucesso, volumes esperados, nem requisitos não funcionais (desempenho, busca, importação em lote).",
+      "pergunta": "Quais os critérios de aceite e indicadores de sucesso esperados? Há volume estimado de procedimentos e necessidade de importação/exportação em lote ou filtros de busca na tela?"
+    }
+  ],
+  "ordemSugerida": [
+    "H1",
+    "H2",
+    "H3",
+    "H7",
+    "H4",
+    "H5",
+    "H6",
+    "H8",
+    "H9",
+    "H10"
+  ]
+}

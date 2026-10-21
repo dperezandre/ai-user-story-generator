@@ -1,0 +1,80 @@
+{
+  "id": "H1",
+  "titulo": "Reaproveitar protocolo de internação aprovado com histórico de alterações",
+  "persona": "Médico assistente responsável pela internação de pacientes",
+  "quero": "reaproveitar um protocolo de internação já aprovado para outro paciente como base do protocolo de um novo paciente, sem precisar recadastrar todas as informações, com o registro de quem alterou o quê",
+  "para": "ganhar agilidade na abertura da internação, evitar retrabalho e garantir à coordenação de enfermagem rastreabilidade sobre o que foi mantido e o que foi modificado",
+  "dependeDe": [],
+  "origem": "o médico consiga reaproveitar um protocolo de internação já aprovado para outro paciente, sem recadastrar tudo, mantendo o registro de quem alterou o quê",
+  "criteriosAceite": [
+    {
+      "dado": "que existe um protocolo de internação com status aprovado de outro paciente e o médico tem permissão para utilizá-lo",
+      "quando": "o médico seleciona esse protocolo como base para o protocolo de um novo paciente",
+      "entao": "o sistema cria um novo protocolo para o novo paciente com o conteúdo do protocolo de origem já preenchido, indicando qual protocolo foi usado como origem"
+    },
+    {
+      "dado": "que o médico criou um novo protocolo a partir de um protocolo aprovado",
+      "quando": "ele altera um ou mais campos do novo protocolo e salva",
+      "entao": "o sistema registra, para cada alteração, o usuário, a data e hora, o campo alterado, o valor anterior e o novo valor, e o protocolo de origem permanece inalterado"
+    },
+    {
+      "dado": "que o médico criou um novo protocolo a partir de um protocolo aprovado e salvou alterações",
+      "quando": "o coordenador de enfermagem consulta o histórico desse protocolo",
+      "entao": "o sistema exibe a lista das alterações com usuário, data e hora, campo, valor anterior e valor novo"
+    },
+    {
+      "dado": "que o médico está buscando um protocolo para reaproveitar",
+      "quando": "ele tenta selecionar um protocolo que não está com status aprovado",
+      "entao": "o sistema não permite o reaproveitamento e informa que apenas protocolos aprovados podem ser usados como base"
+    },
+    {
+      "dado": "que o médico tentou reaproveitar um protocolo e ocorreu uma falha ao criar o novo protocolo",
+      "quando": "a operação não é concluída",
+      "entao": "o sistema informa o erro ao médico, não cria protocolo parcial e não registra alterações no histórico do protocolo de origem"
+    }
+  ],
+  "invest": {
+    "independente": {
+      "ok": false,
+      "comentario": "Depende de já existir cadastro de protocolo de internação e fluxo de aprovação; também depende de definição de como o histórico de alterações será registrado e exibido."
+    },
+    "negociavel": {
+      "ok": true,
+      "comentario": "A necessidade descreve o objetivo sem impor solução; a forma de seleção do protocolo, os campos copiados e o formato do histórico podem ser negociados."
+    },
+    "valiosa": {
+      "ok": true,
+      "comentario": "Reduz retrabalho do médico e dá rastreabilidade à coordenação de enfermagem."
+    },
+    "estimavel": {
+      "ok": false,
+      "comentario": "Faltam definições sobre quais dados são copiados, quem pode reaproveitar, se o novo protocolo precisa de nova aprovação e o nível de detalhe do histórico."
+    },
+    "pequena": {
+      "ok": false,
+      "comentario": "Reúne duas capacidades distintas (copiar protocolo e auditar alterações), que provavelmente não cabem juntas em uma iteração."
+    },
+    "testavel": {
+      "ok": true,
+      "comentario": "Os cenários são verificáveis, mas dependem de resposta às perguntas de refinamento sobre status, permissões e dados copiados."
+    }
+  },
+  "perguntasRefinamento": [
+    "O protocolo copiado precisa passar por nova aprovação antes de ser usado no novo paciente? Quem aprova?",
+    "Quais informações do protocolo podem ser copiadas? Dados específicos do paciente (identificação, peso, alergias, prescrições individualizadas) devem ser excluídos ou revisados obrigatoriamente?",
+    "Existe restrição sobre quais protocolos o médico pode reaproveitar (da mesma especialidade, da mesma unidade, de pacientes de outros médicos)?",
+    "Como o médico localiza o protocolo a reaproveitar (busca por nome, diagnóstico, paciente, modelo)? Há implicações de privacidade ao exibir dados de outro paciente?",
+    "O registro de 'quem alterou o quê' deve cobrir apenas alterações após a cópia ou também a própria criação da cópia e o vínculo com o original?",
+    "Qual o nível de detalhe exigido no histórico (campo, valor anterior e novo valor) e por quanto tempo ele deve ser mantido?",
+    "Quem pode consultar o histórico? Somente a coordenação de enfermagem ou também médicos e outras áreas?",
+    "Alterações no protocolo original depois da cópia devem ser refletidas no protocolo copiado ou os dois passam a ser independentes?",
+    "Existe exigência legal ou normativa (prontuário, LGPD, auditoria hospitalar) que determine requisitos para a rastreabilidade?",
+    "A coordenação de enfermagem precisa ser notificada quando um protocolo for reaproveitado ou alterado?"
+  ],
+  "sugestaoQuebra": [
+    "Como médico assistente, quero criar um novo protocolo de internação a partir de um protocolo já aprovado de outro paciente, para não recadastrar todas as informações",
+    "Como médico assistente, quero que o sistema registre cada alteração feita no protocolo copiado (usuário, data e hora, campo, valor anterior e novo), para manter a rastreabilidade",
+    "Como coordenador de enfermagem, quero consultar o histórico de alterações de um protocolo de internação, para saber quem alterou o quê em relação ao protocolo de origem",
+    "Como médico assistente, quero ser impedido de reaproveitar protocolos não aprovados ou fora das minhas permissões, para garantir que apenas bases válidas sejam usadas"
+  ]
+}

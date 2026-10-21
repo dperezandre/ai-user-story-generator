@@ -1,0 +1,780 @@
+{
+  "H1": {
+    "id": "H1",
+    "titulo": "Chave liga/desliga da funcionalidade de código único por unidade",
+    "persona": "Administrador do sistema (responsável pela parametrização de unidades)",
+    "quero": "cadastrar na tela de parâmetros (PARAM) uma propriedade que relacione o código da unidade a uma chave de ativação, para habilitar ou desabilitar a funcionalidade de código único individualmente em cada unidade",
+    "para": "liberar a funcionalidade de forma gradual e controlada, unidade a unidade, sem impactar as unidades que ainda não estão preparadas",
+    "dependeDe": [],
+    "origem": "4.1 Chave liga/desliga por unidade",
+    "criteriosAceite": [
+      {
+        "dado": "que sou um administrador com acesso à tela de parâmetros (PARAM) e a unidade possui código cadastrado",
+        "quando": "informo o código da unidade, defino a chave de ativação como ligada e salvo",
+        "entao": "o sistema grava a propriedade para aquela unidade e a funcionalidade de código único passa a ficar habilitada somente para ela"
+      },
+      {
+        "dado": "que a funcionalidade está habilitada para a unidade A",
+        "quando": "altero a chave de ativação da unidade A para desligada e salvo",
+        "entao": "a funcionalidade de código único fica desabilitada na unidade A, sem alterar o estado das demais unidades"
+      },
+      {
+        "dado": "que existe uma unidade sem a propriedade cadastrada na tela PARAM",
+        "quando": "um usuário dessa unidade acessa as telas que dependem do código único",
+        "entao": "a funcionalidade é tratada como desabilitada (comportamento anterior preservado) [a confirmar nas perguntas de refinamento]"
+      },
+      {
+        "dado": "que estou na tela PARAM cadastrando a propriedade",
+        "quando": "informo um código de unidade inexistente ou deixo o código ou a chave de ativação em branco e tento salvar",
+        "entao": "o sistema não grava a propriedade e exibe mensagem indicando o campo inválido ou obrigatório"
+      },
+      {
+        "dado": "que já existe a propriedade cadastrada para a unidade A",
+        "quando": "tento cadastrar uma segunda propriedade para a mesma unidade",
+        "entao": "o sistema impede a duplicidade e orienta a editar o registro existente"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": true,
+        "comentario": "Não depende de outras histórias; é a base para as demais, que consultarão a chave."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "Formato da chave (sim/não, S/N) e o local exato na PARAM podem ser discutidos."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Permite implantação gradual e reduz o risco de impacto em unidades não preparadas."
+      },
+      "estimavel": {
+        "ok": false,
+        "comentario": "O trecho não detalha o comportamento padrão sem parametrização, perfis de acesso nem o efeito em dados já existentes, o que dificulta a estimativa precisa."
+      },
+      "pequena": {
+        "ok": true,
+        "comentario": "Escopo restrito ao cadastro e à consulta de uma propriedade por unidade."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os cenários Gherkin cobrem ligar, desligar, valor padrão e validações; o efeito nas demais telas será verificado nas histórias que consomem a chave."
+      }
+    },
+    "perguntasRefinamento": [
+      "Qual o comportamento esperado quando a unidade não tem a propriedade cadastrada: funcionalidade desligada por padrão?",
+      "Quais perfis de usuário podem criar e alterar essa propriedade na tela PARAM?",
+      "O código da unidade deve ser validado contra o cadastro existente de unidades ou digitado livremente?",
+      "A chave de ativação é um valor do tipo Sim/Não, S/N ou outro formato? Há outros valores possíveis?",
+      "A alteração da chave deve ter efeito imediato ou exige novo login/reinício de sessão dos usuários?",
+      "É necessário registrar auditoria (quem alterou, quando, valor anterior) das mudanças na chave?",
+      "O que acontece com solicitações já feitas ou em andamento quando a funcionalidade é desligada em uma unidade?",
+      "Será possível cadastrar uma regra geral (todas as unidades) além da individual por unidade?"
+    ],
+    "sugestaoQuebra": null
+  },
+  "H2": {
+    "id": "H2",
+    "titulo": "Estrutura da tela administrativa com abas Procedimento Unificado e Procedimento Unificado – Pacote",
+    "persona": "Analista de faturamento/administrador de parametrização de convênios",
+    "quero": "acessar uma nova tela administrativa de parametrização com as abas \"Procedimento Unificado\" e \"Procedimento Unificado – Pacote\"",
+    "para": "ter um ponto único e organizado onde realizar os cadastros e mapeamentos (de-para) entre o código único e as tabelas negociadas por convênio, garantindo consistência entre as áreas assistenciais e o faturamento",
+    "dependeDe": [
+      "H1"
+    ],
+    "origem": "4.2 Tela administrativa de parametrização",
+    "criteriosAceite": [
+      {
+        "dado": "que sou um usuário com permissão de acesso à parametrização administrativa",
+        "quando": "acesso a nova tela administrativa de parametrização",
+        "entao": "o sistema exibe a tela com as abas \"Procedimento Unificado\" e \"Procedimento Unificado – Pacote\""
+      },
+      {
+        "dado": "que estou na tela administrativa de parametrização",
+        "quando": "alterno entre as abas \"Procedimento Unificado\" e \"Procedimento Unificado – Pacote\"",
+        "entao": "o sistema exibe o conteúdo da aba selecionada, identifica visualmente a aba ativa e mantém a tela sem perda de contexto de navegação"
+      },
+      {
+        "dado": "que sou um usuário sem permissão de acesso à parametrização administrativa",
+        "quando": "tento acessar a tela administrativa de parametrização",
+        "entao": "o sistema bloqueia o acesso e exibe mensagem informando que não há permissão para a funcionalidade"
+      },
+      {
+        "dado": "que ocorre uma falha ao carregar o conteúdo de uma das abas",
+        "quando": "seleciono essa aba",
+        "entao": "o sistema exibe mensagem de erro clara na aba afetada, sem impedir o uso da outra aba"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H1 e serve de base para as histórias de cadastro e mapeamento, mas a dependência é explícita e controlável."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "Layout, nomenclatura de menu e comportamento de navegação entre abas podem ser discutidos com o negócio."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Entrega valor principalmente como habilitadora das demais histórias; sozinha, o valor para o usuário final é limitado."
+      },
+      "estimavel": {
+        "ok": true,
+        "comentario": "Escopo restrito à estrutura e navegação; estimável, desde que definidas permissões e posição no menu."
+      },
+      "pequena": {
+        "ok": true,
+        "comentario": "Limita-se ao esqueleto da tela e das duas abas, sem os cadastros em si; cabe em uma iteração."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Exibição das abas, navegação e controle de acesso são verificáveis pelos cenários Gherkin."
+      }
+    },
+    "perguntasRefinamento": [
+      "Qual é o perfil/permissão que deve ter acesso à tela e a quais ações (consulta x edição)?",
+      "Em qual menu/módulo do sistema a tela deve ser posicionada e qual será o nome oficial dela?",
+      "Qual aba deve abrir por padrão ao acessar a tela?",
+      "As abas devem exibir apenas estrutura vazia/placeholder nesta história, ou já devem trazer listagem e filtros básicos?",
+      "Há requisitos de auditoria (log de acesso ou de alterações) para a tela?",
+      "Existe diretriz de padrão visual (design system) ou tela existente a ser usada como referência?"
+    ],
+    "sugestaoQuebra": null
+  },
+  "H3": {
+    "id": "H3",
+    "titulo": "Cadastro do procedimento unificado (aba Procedimento Unificado – Bloco 1)",
+    "persona": "Administrador de cadastros de procedimentos (analista de parametrização do hospital)",
+    "quero": "cadastrar o procedimento unificado informando status (ativo/inativo), classe do exame/procedimento, permissão de prescrição (Pronto-Socorro, Internação ou Ambos), ID numérico único e o nome exibido à equipe médica na prescrição",
+    "para": "que os médicos solicitem exames e procedimentos por um código único padronizado, com nome claro e disponível apenas nos contextos assistenciais corretos, reduzindo inconsistências e retrabalho",
+    "dependeDe": [
+      "H2"
+    ],
+    "origem": "4.3 Aba Procedimento Unificado – Bloco 1",
+    "criteriosAceite": [
+      {
+        "dado": "que o administrador está na aba Procedimento Unificado e abriu um novo cadastro",
+        "quando": "ele preenche status, seleciona a classe do exame/procedimento na lista suspensa, define a permissão de prescrição como Pronto-Socorro, Internação ou Ambos, informa um ID numérico ainda não utilizado e o nome exibido na prescrição, e salva",
+        "entao": "o sistema grava o procedimento unificado com os dados informados e o apresenta na listagem com o status e a permissão de prescrição escolhidos"
+      },
+      {
+        "dado": "que existe um procedimento unificado cadastrado com o ID numérico 1050",
+        "quando": "o administrador tenta salvar um novo procedimento unificado com o mesmo ID 1050",
+        "entao": "o sistema impede o salvamento e informa que o ID já está em uso, mantendo o cadastro existente inalterado"
+      },
+      {
+        "dado": "que o administrador está preenchendo o Bloco 1 do cadastro",
+        "quando": "ele tenta salvar sem informar um campo obrigatório (por exemplo, classe, permissão de prescrição, ID ou nome exibido na prescrição) ou informa um ID com caracteres não numéricos",
+        "entao": "o sistema não salva o cadastro e sinaliza cada campo ausente ou inválido com mensagem indicando a correção necessária"
+      },
+      {
+        "dado": "que existe um procedimento unificado ativo com permissão de prescrição \"Internação\"",
+        "quando": "o administrador altera o status para inativo e salva",
+        "entao": "o sistema registra o status inativo e o procedimento deixa de ser oferecido para prescrição à equipe médica"
+      },
+      {
+        "dado": "que existe um procedimento unificado ativo com permissão de prescrição \"Pronto-Socorro\"",
+        "quando": "um médico busca o procedimento durante a prescrição em Pronto-Socorro e, em seguida, em Internação",
+        "entao": "o procedimento aparece com o nome exibido configurado apenas na prescrição de Pronto-Socorro e não é oferecido na prescrição de Internação"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H2, que precede o cadastro, e o cadastro é base para as histórias seguintes do de-para por convênio."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "Detalhes de layout, mensagens e ordem dos campos podem ser negociados sem alterar o objetivo."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Sem o cadastro do procedimento unificado não há código único para prescrição nem base para o de-para com convênios."
+      },
+      "estimavel": {
+        "ok": false,
+        "comentario": "Faltam definições sobre origem da lista de classes, regras de unicidade/edição do ID e obrigatoriedade dos campos, o que dificulta a estimativa."
+      },
+      "pequena": {
+        "ok": true,
+        "comentario": "Restrita a um único bloco de campos de cadastro (Bloco 1), cabendo em uma iteração."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os campos e regras (ID único, lista suspensa, permissão de prescrição, status) permitem cenários verificáveis, mesmo com pontos em aberto."
+      }
+    },
+    "perguntasRefinamento": [
+      "Qual é a origem e quem mantém a lista de classes do exame/procedimento (lista fixa ou cadastro próprio)? Pode haver mais de uma classe por procedimento?",
+      "O ID numérico único é informado manualmente ou gerado automaticamente pelo sistema? Qual a faixa, o tamanho máximo e a sequência esperada?",
+      "O ID e o nome podem ser alterados após o cadastro? Se sim, quem tem permissão e como fica o histórico?",
+      "Quais campos do Bloco 1 são obrigatórios? Há limite de caracteres e regra de unicidade para o nome exibido na prescrição?",
+      "Qual é o status padrão de um novo cadastro (ativo ou inativo)?",
+      "O que acontece com prescrições já realizadas e com vínculos de de-para existentes quando o procedimento é inativado ou a permissão de prescrição é alterada?",
+      "Quais perfis de usuário podem criar, editar e inativar procedimentos unificados? É necessária trilha de auditoria?",
+      "Um procedimento inativo deve continuar visível na listagem administrativa e ser filtrável por status?",
+      "Há alguma validação para evitar nomes duplicados ou muito semelhantes entre procedimentos unificados?"
+    ],
+    "sugestaoQuebra": null
+  },
+  "H4": {
+    "id": "H4",
+    "titulo": "Mapeamento de-para por convênio (CBHPM, AMB, TUSS e código fictício)",
+    "persona": "Analista de faturamento / administrador do cadastro de procedimentos",
+    "quero": "associar o procedimento unificado aos códigos CBHPM, AMB, TUSS e a um código fictício, por convênio, na aba Procedimento Unificado (Bloco 2)",
+    "para": "que a prescrição, o faturamento e a auditoria usem o código correto de cada tabela negociada, evitando inconsistências, glosas e retrabalho",
+    "dependeDe": [
+      "H3"
+    ],
+    "origem": "4.3 Aba Procedimento Unificado – Bloco 2",
+    "criteriosAceite": [
+      {
+        "dado": "que existe um procedimento unificado cadastrado e o usuário está na aba Procedimento Unificado, Bloco 2",
+        "quando": "o usuário informa os códigos CBHPM, AMB e TUSS correspondentes para um convênio e salva",
+        "entao": "o sistema grava o relacionamento de-para entre o procedimento unificado e cada código informado e exibe o mapeamento na listagem do procedimento"
+      },
+      {
+        "dado": "que um procedimento unificado ainda não possui código negociado em nenhuma tabela de um convênio",
+        "quando": "o usuário associa um código fictício a esse procedimento para o convênio e salva",
+        "entao": "o sistema grava o código fictício como vínculo válido, permitindo que o procedimento seja prescrito e posteriormente identificado como não negociado no faturamento e na auditoria"
+      },
+      {
+        "dado": "que o usuário está preenchendo o mapeamento de um convênio",
+        "quando": "ele tenta salvar com um código inexistente na tabela de referência correspondente (CBHPM, AMB ou TUSS) ou sem informar nenhum código",
+        "entao": "o sistema bloqueia a gravação, destaca o campo inválido e exibe mensagem informando o motivo, sem alterar o mapeamento existente"
+      },
+      {
+        "dado": "que já existe um mapeamento do mesmo procedimento unificado para o mesmo convênio e tabela",
+        "quando": "o usuário tenta cadastrar um segundo vínculo duplicado para essa combinação",
+        "entao": "o sistema impede a duplicidade e informa que já existe um vínculo, oferecendo a edição do registro existente"
+      },
+      {
+        "dado": "que um procedimento unificado possui mapeamento para um convênio",
+        "quando": "o usuário altera ou remove um dos códigos associados e confirma",
+        "entao": "o sistema atualiza o de-para e os módulos de prescrição, faturamento e auditoria passam a considerar o código atualizado"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H3 (cadastro do procedimento unificado), pois só é possível mapear um procedimento já existente."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "Formato da tela, ordem dos campos e forma de busca dos códigos podem ser discutidos sem alterar o objetivo."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Garante a consistência entre prescrição, faturamento e auditoria e viabiliza a prescrição de itens ainda não negociados via código fictício."
+      },
+      "estimavel": {
+        "ok": false,
+        "comentario": "Faltam definições sobre origem das tabelas de referência, regras do código fictício e cardinalidade do vínculo por convênio, o que impede estimar com segurança."
+      },
+      "pequena": {
+        "ok": false,
+        "comentario": "Reúne quatro tipos de código (CBHPM, AMB, TUSS, fictício), validações, duplicidade e edição/remoção; tende a ser grande para uma única entrega."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os cenários de gravação, validação, duplicidade e alteração são verificáveis, desde que as perguntas em aberto sejam respondidas."
+      }
+    },
+    "perguntasRefinamento": [
+      "O mapeamento é feito por convênio (um conjunto de códigos para cada convênio) ou é único e depois associado às tabelas de cada convênio?",
+      "As tabelas de referência CBHPM, AMB e TUSS já estão carregadas no sistema? Quem as mantém e com que periodicidade são atualizadas?",
+      "É obrigatório informar os quatro tipos de código ou basta pelo menos um? Existe combinação mínima exigida?",
+      "Como o código fictício é gerado: manual, automático ou sequencial? Existe padrão de formato e unicidade?",
+      "O que acontece com o código fictício quando o procedimento passa a ser negociado e recebe código oficial (migração, histórico, substituição)?",
+      "Um procedimento unificado pode ter mais de um código da mesma tabela para o mesmo convênio (ex.: dois códigos TUSS)?",
+      "Alterações e remoções de vínculo afetam prescrições e faturas já emitidas? É necessário manter histórico/log de auditoria das alterações?",
+      "Quais perfis de usuário podem criar, editar e excluir o de-para?",
+      "Há necessidade de vigência (data de início e fim) para o mapeamento?"
+    ],
+    "sugestaoQuebra": [
+      "H4a: Mapear o procedimento unificado aos códigos CBHPM, AMB e TUSS por convênio, com validação contra as tabelas de referência e bloqueio de duplicidade",
+      "H4b: Associar código fictício a procedimento ainda não negociado, permitindo prescrição e identificação para faturamento e auditoria",
+      "H4c: Editar, inativar e consultar histórico (auditoria) dos vínculos de-para"
+    ]
+  },
+  "H5": {
+    "id": "H5",
+    "titulo": "Validação dos códigos contra a TCOD com mensagem de erro",
+    "persona": "Analista de cadastro de procedimentos (administrador do de-para de códigos)",
+    "quero": "que o sistema valide que todo código informado (CBHPM, AMB, TUSS e fictício) já exista previamente na TCOD e exiba uma mensagem de erro quando o código não for encontrado",
+    "para": "garantir que o relacionamento entre o código único e as tabelas negociadas só use códigos válidos, evitando inconsistências entre as áreas assistenciais e o faturamento e reduzindo erros e retrabalho nas solicitações",
+    "dependeDe": [
+      "H4"
+    ],
+    "origem": "4.3 Regras de validação",
+    "criteriosAceite": [
+      {
+        "dado": "que o usuário está parametrizando o de-para na tela administrativa e informa um código CBHPM, AMB, TUSS ou fictício que existe na TCOD",
+        "quando": "ele confirma o cadastro ou a alteração",
+        "entao": "o sistema valida o código contra a TCOD, aceita o registro e permite que o relacionamento seja salvo normalmente"
+      },
+      {
+        "dado": "que o usuário informa um código que não existe na TCOD",
+        "quando": "ele tenta salvar o relacionamento",
+        "entao": "o sistema bloqueia o salvamento, exibe uma mensagem de erro indicando que o código não foi encontrado na TCOD e mantém os dados já preenchidos na tela para correção"
+      },
+      {
+        "dado": "que o usuário informa vários códigos de tipos diferentes (por exemplo, um TUSS válido e um AMB inexistente na TCOD)",
+        "quando": "ele tenta salvar o relacionamento",
+        "entao": "o sistema bloqueia o salvamento e a mensagem de erro identifica qual(is) código(s) e de qual tipo não foram encontrados, sem rejeitar os códigos válidos"
+      },
+      {
+        "dado": "que o usuário deixa o campo de código em branco ou informa um código com formato inválido",
+        "quando": "ele tenta salvar o relacionamento",
+        "entao": "o sistema não aceita o valor e exibe mensagem de erro, sem tratá-lo como um código válido da TCOD"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H4, que presumivelmente traz a tela/cadastro do de-para onde a validação é aplicada; só pode ser entregue depois ou junto dela."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "O texto da mensagem, o momento da validação (ao sair do campo ou ao salvar) e o formato de exibição podem ser negociados."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Evita que códigos inexistentes entrem no de-para, protegendo a consistência com o faturamento e reduzindo retrabalho."
+      },
+      "estimavel": {
+        "ok": false,
+        "comentario": "Falta definir como a TCOD é consultada (tabela interna, integração ou carga), o que impede estimar o esforço com segurança."
+      },
+      "pequena": {
+        "ok": true,
+        "comentario": "É uma regra de validação com mensagem de erro, executável em uma iteração, desde que o acesso à TCOD já esteja disponível."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os cenários de código existente e inexistente são verificáveis; basta massa de dados com códigos presentes e ausentes na TCOD."
+      }
+    },
+    "perguntasRefinamento": [
+      "O que é a TCOD e onde ela fica (tabela interna, sistema externo, arquivo carregado)? Como o sistema a consulta?",
+      "Qual é a regra de formato de cada tipo de código (CBHPM, AMB, TUSS e fictício) e o código fictício também precisa existir previamente na TCOD, inclusive os que forem criados pelo hospital?",
+      "A validação ocorre ao sair do campo, ao salvar ou nos dois momentos?",
+      "Qual deve ser o texto exato da mensagem de erro e ela deve indicar o código e o tipo não encontrados?",
+      "Quando vários códigos são inválidos, a mensagem lista todos de uma vez ou apenas o primeiro?",
+      "Um código que existia na TCOD e foi inativado ou removido depois deve invalidar relacionamentos já cadastrados ou apenas novos cadastros?",
+      "Existe perfil autorizado a contornar a validação ou a incluir o código na TCOD a partir da própria tela?",
+      "A validação deve ocorrer também em cargas ou importações em lote do de-para, e não só no cadastro manual?"
+    ],
+    "sugestaoQuebra": null
+  },
+  "H6": {
+    "id": "H6",
+    "titulo": "Auditoria de cadastro e alteração (usuário e data de registro)",
+    "persona": "Auditor/Gestor de faturamento hospitalar",
+    "quero": "que o sistema preencha e grave automaticamente o usuário (login de quem cadastrou ou alterou por último) e a data de registro a cada gravação do mapeamento entre o código único e a tabela do convênio",
+    "para": "rastrear quem realizou e quando foi realizada a última alteração em cada de-para, apoiando a auditoria e a investigação de inconsistências entre as áreas assistenciais e o faturamento",
+    "dependeDe": [
+      "H4"
+    ],
+    "origem": "4.3 Bloco 2 (campos Usuário e Data de registro) e Regras de validação",
+    "criteriosAceite": [
+      {
+        "dado": "que o usuário está autenticado com seu login e abre a tela de cadastro de um novo mapeamento",
+        "quando": "ele preenche os campos obrigatórios e grava o mapeamento",
+        "entao": "o sistema grava automaticamente o login do usuário no campo Usuário e a data de registro no momento da gravação, e exibe ambos os campos no registro salvo"
+      },
+      {
+        "dado": "que existe um mapeamento já gravado pelo usuário A em uma data anterior",
+        "quando": "o usuário B altera e grava esse mapeamento",
+        "entao": "o campo Usuário passa a exibir o login do usuário B e a data de registro passa a refletir a data da última alteração"
+      },
+      {
+        "dado": "que o usuário está na tela de cadastro ou edição do mapeamento",
+        "quando": "ele tenta editar manualmente os campos Usuário ou Data de registro",
+        "entao": "o sistema não permite a edição, mantendo os campos somente leitura e preenchidos automaticamente"
+      },
+      {
+        "dado": "que o usuário preencheu o mapeamento, mas a gravação falha por violação de uma regra de validação (por exemplo, campo obrigatório não preenchido)",
+        "quando": "ele tenta gravar",
+        "entao": "o sistema exibe a mensagem de validação, não grava o mapeamento e não altera o Usuário nem a Data de registro do registro existente"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H4, pois só faz sentido quando a gravação do mapeamento já existe."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "O formato de exibição da data/hora e a necessidade de histórico completo podem ser negociados."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Dá rastreabilidade para auditoria e apoia a análise de divergências no faturamento."
+      },
+      "estimavel": {
+        "ok": true,
+        "comentario": "Escopo restrito a dois campos automáticos na gravação; esforço fácil de estimar."
+      },
+      "pequena": {
+        "ok": true,
+        "comentario": "Cabe em uma iteração junto da gravação do mapeamento."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os cenários de criação, alteração, somente leitura e falha de validação são verificáveis."
+      }
+    },
+    "perguntasRefinamento": [
+      "A data de registro deve incluir hora (data e hora) ou apenas a data? Qual o formato e fuso horário de exibição?",
+      "O campo Usuário deve exibir o login, o nome completo do colaborador ou ambos?",
+      "É necessário manter histórico de todas as alterações (quem, quando, o que mudou) ou somente o último usuário e a última data?",
+      "A data de registro representa a data de criação, a da última alteração ou ambas? O trecho indica 'cadastrou ou alterou por último', o que sugere a última alteração; confirmar se a data de criação original também precisa ser preservada.",
+      "A exclusão ou inativação de um mapeamento também deve atualizar o usuário e a data de registro?",
+      "Qual o comportamento quando a alteração é feita por integração ou carga em lote, sem usuário logado?",
+      "Os campos de auditoria devem ser exibidos em alguma listagem ou relatório, além da tela de cadastro?"
+    ],
+    "sugestaoQuebra": null
+  },
+  "H7": {
+    "id": "H7",
+    "titulo": "Cadastro do procedimento unificado do tipo Pacote (aba Procedimento Unificado – Pacote – Bloco 1)",
+    "persona": "Analista administrativo responsável pela parametrização de procedimentos e convênios",
+    "quero": "cadastrar um procedimento unificado do tipo Pacote informando status, classe, permissão de prescrição, ID numérico único e o nome exibido à equipe médica",
+    "para": "que os médicos possam solicitar o pacote por um código único padronizado, reduzindo inconsistências e retrabalho entre as áreas assistenciais e o faturamento",
+    "dependeDe": [
+      "H2"
+    ],
+    "origem": "4.4 Aba Procedimento Unificado – Pacote – Bloco 1",
+    "criteriosAceite": [
+      {
+        "dado": "que estou na aba Procedimento Unificado – Pacote, no Bloco 1, e preenchi todos os campos obrigatórios com valores válidos (status, classe, permissão de prescrição, ID numérico único e nome exibido à equipe médica)",
+        "quando": "salvo o cadastro",
+        "entao": "o sistema registra o procedimento unificado do tipo Pacote com os dados informados e o exibe como cadastrado, com o status e a permissão de prescrição definidos"
+      },
+      {
+        "dado": "que informo um ID numérico que já está em uso por outro procedimento unificado",
+        "quando": "tento salvar o cadastro",
+        "entao": "o sistema impede o salvamento e exibe mensagem informando que o ID já existe, mantendo os demais dados preenchidos na tela"
+      },
+      {
+        "dado": "que informo no campo ID um valor não numérico (por exemplo, letras ou símbolos)",
+        "quando": "tento salvar o cadastro",
+        "entao": "o sistema impede o salvamento e indica que o ID deve conter apenas números"
+      },
+      {
+        "dado": "que deixei em branco um ou mais campos obrigatórios (por exemplo, classe ou nome exibido à equipe médica)",
+        "quando": "tento salvar o cadastro",
+        "entao": "o sistema impede o salvamento e destaca cada campo obrigatório não preenchido com mensagem de orientação"
+      },
+      {
+        "dado": "que cadastrei um pacote com a permissão de prescrição desabilitada",
+        "quando": "um médico busca o pacote na solicitação de exames e procedimentos",
+        "entao": "o pacote não é disponibilizado para prescrição"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H2, que deve existir antes para que o cadastro do tipo Pacote seja possível; fora essa dependência, o Bloco 1 pode ser entregue isoladamente."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "Há espaço para negociar a disposição dos campos, o formato das mensagens de validação e o comportamento do status padrão."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Cria a base do pacote com código único, permitindo a prescrição padronizada e servindo de fundamento para os blocos seguintes."
+      },
+      "estimavel": {
+        "ok": true,
+        "comentario": "O escopo do Bloco 1 é restrito a um conjunto definido de campos; as dúvidas em aberto (domínios de status e classe, regra de geração do ID) podem afetar a estimativa até serem respondidas."
+      },
+      "pequena": {
+        "ok": true,
+        "comentario": "Limitada a um bloco de campos básicos de cadastro, cabendo em uma iteração."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os critérios descrevem validações e resultados observáveis; a testabilidade completa depende de definir os valores possíveis de status e classe."
+      }
+    },
+    "perguntasRefinamento": [
+      "Quais são os valores possíveis do campo Status (por exemplo, Ativo/Inativo) e qual é o valor padrão em um novo cadastro?",
+      "Quais são as classes disponíveis, de onde vêm (lista pré-cadastrada ou cadastro próprio) e a classe é de seleção única?",
+      "O ID numérico único é informado manualmente ou gerado automaticamente pelo sistema? Existe faixa, tamanho máximo ou sequência obrigatória?",
+      "O ID pode ser alterado após o cadastro ou fica bloqueado depois de salvo?",
+      "O campo permissão de prescrição é um indicador simples (sim/não) ou pode ser restrito por perfil, especialidade ou unidade?",
+      "O nome exibido à equipe médica tem limite de caracteres e precisa ser único? Pode ser editado depois?",
+      "Quais campos do Bloco 1 são obrigatórios e quais são opcionais?",
+      "Pacotes inativos ou sem permissão de prescrição continuam aparecendo em consultas e relatórios históricos?",
+      "Quem tem perfil de acesso para cadastrar e editar procedimentos unificados do tipo Pacote?",
+      "O que acontece com um cadastro parcialmente preenchido: é possível salvar como rascunho ou o pacote só é criado com o Bloco 1 completo?"
+    ],
+    "sugestaoQuebra": null
+  },
+  "H8": {
+    "id": "H8",
+    "titulo": "Vínculo de múltiplos exames a um pacote com mapeamento individual por convênio",
+    "persona": "Analista de cadastro de procedimentos (usuário administrativo responsável pela parametrização do de-para)",
+    "quero": "vincular vários exames a um único pacote, que funciona como agrupador lógico, mantendo o vínculo individual de cada exame com seus códigos nas tabelas dos convênios",
+    "para": "que o pacote possa ser solicitado de forma padronizada pelo médico, sem perder o mapeamento de cada exame com a tabela negociada de cada convênio, garantindo consistência entre as áreas assistenciais e o faturamento",
+    "dependeDe": [
+      "H3",
+      "H4",
+      "H7"
+    ],
+    "origem": "4.4 Aba Procedimento Unificado – Pacote – Bloco 2",
+    "criteriosAceite": [
+      {
+        "dado": "que existe um pacote cadastrado na aba Procedimento Unificado – Pacote e que há exames já cadastrados com código único",
+        "quando": "o analista seleciona vários exames e os vincula ao pacote",
+        "entao": "o sistema exibe todos os exames vinculados ao pacote, e o pacote passa a funcionar apenas como agrupador lógico, sem código próprio de cobrança nas tabelas dos convênios"
+      },
+      {
+        "dado": "que um pacote possui exames vinculados e que cada exame possui mapeamento com códigos nas tabelas de convênios",
+        "quando": "o analista consulta o pacote e abre o detalhe de um dos exames vinculados",
+        "entao": "o sistema apresenta o mapeamento individual daquele exame para cada convênio, com o respectivo código da tabela negociada, sem consolidar ou alterar os códigos dos demais exames do pacote"
+      },
+      {
+        "dado": "que um pacote possui exames vinculados",
+        "quando": "o analista altera o mapeamento de um exame de um convênio específico",
+        "entao": "somente o mapeamento daquele exame naquele convênio é alterado, e os demais exames do pacote e os demais convênios permanecem inalterados"
+      },
+      {
+        "dado": "que um pacote possui exames vinculados",
+        "quando": "o analista remove um exame do pacote",
+        "entao": "o exame deixa de compor o pacote, mas seu cadastro e seus mapeamentos por convênio permanecem preservados"
+      },
+      {
+        "dado": "que o analista está vinculando exames a um pacote",
+        "quando": "ele tenta vincular um exame que já está vinculado a esse mesmo pacote",
+        "entao": "o sistema impede a duplicidade, não grava o vínculo repetido e exibe mensagem informando que o exame já faz parte do pacote"
+      },
+      {
+        "dado": "que o analista está vinculando exames a um pacote",
+        "quando": "ele tenta confirmar o vínculo sem selecionar nenhum exame",
+        "entao": "o sistema não grava a alteração e exibe mensagem solicitando a seleção de ao menos um exame"
+      },
+      {
+        "dado": "que um exame selecionado para o pacote não possui mapeamento com a tabela de um determinado convênio",
+        "quando": "o analista salva o vínculo do exame ao pacote",
+        "entao": "o sistema mantém o vínculo, sinaliza que aquele exame não possui código negociado para o convênio em questão e não atribui nenhum código automaticamente"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H3, H4 e H7: precisa do cadastro de código único, do de-para por convênio e do cadastro do pacote antes de poder ser entregue."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "A forma de seleção dos exames, o layout do bloco e o tratamento de exames sem mapeamento podem ser discutidos sem perder o valor."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Permite solicitar um conjunto de exames de forma padronizada, preservando a correspondência com o faturamento de cada convênio."
+      },
+      "estimavel": {
+        "ok": false,
+        "comentario": "O trecho não detalha regras de composição, limites de exames, nem o comportamento quando um exame não tem código no convênio, o que impede uma estimativa confiável."
+      },
+      "pequena": {
+        "ok": false,
+        "comentario": "Reúne vínculo de vários exames, visualização do mapeamento individual por convênio, alteração e remoção, o que tende a exceder uma entrega curta."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os cenários Gherkin são verificáveis, mas o comportamento de exame sem mapeamento e as mensagens de validação precisam ser confirmados."
+      }
+    },
+    "perguntasRefinamento": [
+      "Existe limite mínimo ou máximo de exames por pacote?",
+      "Um mesmo exame pode pertencer a mais de um pacote ao mesmo tempo?",
+      "O pacote possui código próprio em alguma tabela de convênio ou é apenas agrupador lógico, sem cobrança própria?",
+      "Quando um exame do pacote não possui código negociado em um convênio, o que o sistema deve fazer: permitir o vínculo e sinalizar, bloquear ou tratar como exame não negociado?",
+      "O mapeamento individual por convênio é editado dentro da tela do pacote ou apenas consultado, com edição na tela de de-para (H4)?",
+      "Quais perfis de usuário podem vincular e remover exames de um pacote?",
+      "Ao remover um exame de um pacote já solicitado em atendimentos anteriores, o histórico das solicitações deve ser preservado?",
+      "O pacote pode conter procedimentos que não sejam exames (por exemplo, outros procedimentos), ou apenas exames?",
+      "Deve haver registro de auditoria (quem vinculou, removeu ou alterou) para os vínculos do pacote?",
+      "Como o pacote é apresentado ao médico na solicitação: como item único ou com os exames listados individualmente?"
+    ],
+    "sugestaoQuebra": [
+      "H8a: Vincular e desvincular vários exames a um pacote, com validação de duplicidade e de seleção vazia",
+      "H8b: Consultar, no pacote, o mapeamento individual de cada exame com os códigos das tabelas por convênio",
+      "H8c: Sinalizar exames do pacote sem código negociado em determinado convênio",
+      "H8d: Alterar o mapeamento de um exame por convênio a partir do pacote, se confirmado como escopo"
+    ]
+  },
+  "H9": {
+    "id": "H9",
+    "titulo": "Prescrição por código único nos sistemas de Prescrição (Internação e Pronto-Socorro)",
+    "persona": "Médico assistente (Internação ou Pronto-Socorro)",
+    "quero": "solicitar exames e procedimentos pelo código único padronizado nos sistemas de Prescrição, visualizando o nome do procedimento e vendo apenas os itens ativos e liberados para o meu contexto de prescrição e para a minha unidade",
+    "para": "prescrever de forma padronizada, reduzindo erros e retrabalho nas solicitações e permitindo que Laboratório e Diagnóstico executem corretamente o que foi solicitado, inclusive para itens ainda não negociados com o convênio",
+    "dependeDe": [
+      "H1",
+      "H3",
+      "H4"
+    ],
+    "origem": "1. Objetivo; 4.3 Bloco 1 (Status, Permissão de prescrição, Nome)",
+    "criteriosAceite": [
+      {
+        "dado": "que existe um código único com status Ativo, permissão de prescrição \"Ambos\" e vinculado à chave da unidade do médico",
+        "quando": "o médico busca o código ou o nome do procedimento na prescrição de Internação ou de Pronto-Socorro",
+        "entao": "o sistema exibe o código único junto com o nome do procedimento e permite adicioná-lo à prescrição"
+      },
+      {
+        "dado": "que existe um código único ativo com permissão de prescrição \"Pronto-Socorro\"",
+        "quando": "o médico busca esse código na prescrição de Internação",
+        "entao": "o sistema não exibe o item nos resultados e não permite sua prescrição"
+      },
+      {
+        "dado": "que existe um código único ativo com permissão de prescrição \"Internação\"",
+        "quando": "o médico busca esse código na prescrição de Pronto-Socorro",
+        "entao": "o sistema não exibe o item nos resultados e não permite sua prescrição"
+      },
+      {
+        "dado": "que existe um código único com status Inativo",
+        "quando": "o médico busca esse código ou seu nome em qualquer um dos sistemas de Prescrição",
+        "entao": "o sistema não exibe o item nos resultados e não permite sua prescrição"
+      },
+      {
+        "dado": "que existe um código único ativo cuja chave da unidade é diferente da unidade em que o médico está prescrevendo",
+        "quando": "o médico busca esse código na prescrição",
+        "entao": "o sistema não exibe o item nos resultados"
+      },
+      {
+        "dado": "que o médico busca um código único inexistente ou digita um código inválido",
+        "quando": "ele tenta localizar o item para prescrever",
+        "entao": "o sistema informa que nenhum procedimento foi encontrado e não adiciona nenhum item à prescrição"
+      },
+      {
+        "dado": "que um código único ativo e permitido ainda não possui tabela negociada para o convênio do paciente",
+        "quando": "o médico o adiciona à prescrição",
+        "entao": "o sistema permite a prescrição do item normalmente, exibindo o código único e o nome do procedimento"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H1, H3 e H4, que fornecem o cadastro do código único, seus atributos e a chave da unidade."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "A forma de busca e exibição (campo, autocomplete, ordenação) pode ser negociada com a área assistencial."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Padroniza a solicitação, reduz erros e retrabalho e permite prescrever itens ainda não negociados, ampliando a receita."
+      },
+      "estimavel": {
+        "ok": false,
+        "comentario": "Não está claro quantos sistemas de Prescrição serão impactados nem como é a integração atual com o cadastro de procedimentos."
+      },
+      "pequena": {
+        "ok": false,
+        "comentario": "Abrange dois sistemas (Internação e Pronto-Socorro) com regras de status, permissão e unidade; pode ser dividida por sistema."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "As regras de status, permissão de prescrição e unidade geram cenários objetivos de verificação."
+      }
+    },
+    "perguntasRefinamento": [
+      "A busca deve aceitar código único, nome do procedimento ou ambos? Há busca parcial ou por sinônimos?",
+      "O que acontece com prescrições já existentes que usam um código que depois foi inativado ou teve a permissão alterada?",
+      "Como o médico deve ser sinalizado quando o item prescrito ainda não tem tabela negociada para o convênio do paciente (alerta, aviso ou nada)?",
+      "O código antigo (por tabela de convênio) continuará disponível nos sistemas de Prescrição durante uma transição, ou será substituído de imediato?",
+      "Como a chave da unidade é determinada na prescrição (unidade do paciente, do médico ou do atendimento)?",
+      "Quais são exatamente os sistemas de Prescrição impactados em Internação e Pronto-Socorro, e há outros pontos de entrada de solicitação (ex.: pedidos avulsos, pacotes, protocolos)?",
+      "O nome exibido ao médico é sempre o do Bloco 1 do cadastro ou pode variar por convênio?",
+      "Há requisitos de desempenho para a busca (tempo de resposta, volume de itens)?"
+    ],
+    "sugestaoQuebra": [
+      "H9a: Prescrição por código único no sistema de Prescrição de Internação (busca, exibição do nome, filtro por status ativo, permissão e unidade)",
+      "H9b: Prescrição por código único no sistema de Prescrição de Pronto-Socorro (mesmas regras, aplicadas ao contexto do PS)",
+      "H9c (opcional): Tratamento de prescrições já existentes e transição do código antigo para o código único, se confirmado como necessário na refinamento"
+    ]
+  },
+  "H10": {
+    "id": "H10",
+    "titulo": "Uso do de-para pelo Faturamento e pelo Diagnóstico",
+    "persona": "Analista de faturamento e profissional de laboratório/diagnóstico",
+    "quero": "que o Vita Faturamento e o Vita Diagnóstico utilizem o relacionamento (de-para) entre o código único e as tabelas negociadas de cada convênio para faturar e executar o que foi solicitado, inclusive procedimentos ainda não negociados",
+    "para": "garantir consistência entre assistência e faturamento, reduzir erros e retrabalho, ampliar a receita com procedimentos não negociados e executar corretamente o que o médico solicitou",
+    "dependeDe": [
+      "H4",
+      "H9"
+    ],
+    "origem": "1. Objetivo; 2. Justificativa (Receita e Assistência); 3. Sistemas impactados",
+    "criteriosAceite": [
+      {
+        "dado": "que um exame foi solicitado pelo médico com um código único que possui relacionamento cadastrado com a tabela do convênio do paciente",
+        "quando": "o Vita Faturamento processa o atendimento para cobrança",
+        "entao": "o item é faturado com o código e a tabela correspondentes do convênio, conforme o de-para parametrizado"
+      },
+      {
+        "dado": "que um exame foi solicitado com um código único que possui relacionamento com a tabela do convênio do paciente",
+        "quando": "o profissional do Vita Diagnóstico ou do Laboratório abre a solicitação para execução",
+        "entao": "o sistema exibe o procedimento solicitado de forma clara e identificável, vinculado ao código único e ao correspondente do convênio, permitindo executar exatamente o que foi pedido"
+      },
+      {
+        "dado": "que um procedimento foi solicitado com um código único ainda não negociado com o convênio do paciente",
+        "quando": "o Vita Faturamento e o Vita Diagnóstico recebem a solicitação",
+        "entao": "o procedimento não é bloqueado nem perdido: ele permanece disponível para execução no Diagnóstico e fica sinalizado no Faturamento como sem correspondência negociada para o convênio"
+      },
+      {
+        "dado": "que um item solicitado não possui relacionamento cadastrado para o convênio do paciente",
+        "quando": "o Vita Faturamento tenta faturá-lo",
+        "entao": "o sistema não gera cobrança com código incorreto ou inventado, apresenta a pendência de de-para ao usuário e mantém o item pendente de tratamento"
+      },
+      {
+        "dado": "que o relacionamento entre código único e tabela do convênio foi alterado na tela administrativa",
+        "quando": "uma nova solicitação é processada pelo Faturamento ou pelo Diagnóstico",
+        "entao": "o sistema utiliza o relacionamento vigente conforme a regra de vigência definida, sem alterar silenciosamente itens já faturados"
+      }
+    ],
+    "invest": {
+      "independente": {
+        "ok": false,
+        "comentario": "Depende de H4 e H9, que entregam o código único e o cadastro do de-para; além disso envolve dois sistemas (Faturamento e Diagnóstico)."
+      },
+      "negociavel": {
+        "ok": true,
+        "comentario": "A forma de exibir o código e de tratar pendências pode ser discutida sem perder o objetivo."
+      },
+      "valiosa": {
+        "ok": true,
+        "comentario": "Fecha o ciclo do épico: sem o consumo do de-para, a padronização não chega ao faturamento nem à execução."
+      },
+      "estimavel": {
+        "ok": false,
+        "comentario": "O trecho não detalha o tratamento de procedimentos não negociados, a vigência do de-para nem os pontos de integração, dificultando a estimativa."
+      },
+      "pequena": {
+        "ok": false,
+        "comentario": "Abrange dois sistemas e ao menos três comportamentos distintos (faturar, executar, tratar não negociados); é grande demais para uma única entrega."
+      },
+      "testavel": {
+        "ok": true,
+        "comentario": "Os cenários Gherkin são verificáveis, desde que as regras de pendência e vigência sejam definidas."
+      }
+    },
+    "perguntasRefinamento": [
+      "Como o Faturamento deve tratar um procedimento não negociado: fica pendente até haver negociação, é cobrado como particular, ou há outra regra?",
+      "Existe vigência (data de início/fim) para o relacionamento de-para, e qual versão vale para solicitações já feitas quando o de-para muda?",
+      "O de-para é 1 para 1 ou um código único pode corresponder a vários códigos do convênio (ou o inverso)? Como o Faturamento escolhe nesse caso?",
+      "O que o Diagnóstico e o Laboratório precisam ver exatamente: apenas o código único, o código do convênio, ou ambos?",
+      "Como as pendências de de-para devem ser sinalizadas e quem as trata (lista de pendências, alerta, relatório)?",
+      "Há impacto em itens já solicitados e faturados antes da implantação do código único? É necessária migração ou tratamento de legado?",
+      "Existem outros sistemas ou módulos (por exemplo, autorização, auditoria de contas, glosas) que também precisam consumir o de-para?",
+      "O valor/preço de procedimentos não negociados segue qual tabela de referência?"
+    ],
+    "sugestaoQuebra": [
+      "H10a: Vita Faturamento utiliza o de-para para faturar itens solicitados com o código único do convênio do paciente",
+      "H10b: Vita Diagnóstico/Laboratório exibe e executa o procedimento solicitado com base no código único e no correspondente do convênio",
+      "H10c: Tratamento de procedimentos não negociados no Faturamento e no Diagnóstico (sinalização, pendência e fluxo de resolução)"
+    ]
+  }
+}

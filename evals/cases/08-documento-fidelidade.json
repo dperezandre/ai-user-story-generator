@@ -1,0 +1,8 @@
+{
+  "id": "08-documento-fidelidade",
+  "tipo": "documento",
+  "arquivo": "evals/cases/08-documento-fidelidade.md",
+  "esperado": {
+    "lacunasMin": 4
+  }
+}

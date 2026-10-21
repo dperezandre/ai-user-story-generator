@@ -1,0 +1,218 @@
+:root {
+  --azul: #1f4e79;
+  --cinza: #555;
+  --borda: #d5dbe3;
+  --erro: #a32020;
+  --ok: #1e6b3a;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #1b1b1b;
+  background: #f6f8fb;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+h1 {
+  color: var(--azul);
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+}
+
+h4 {
+  margin: 20px 0 6px;
+  color: var(--azul);
+}
+
+.selo {
+  background: #fff3cd;
+  border: 1px solid #e0c36a;
+  border-radius: 999px;
+  padding: 1px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.aviso {
+  background: #fff8e5;
+  border-left: 4px solid #e0a800;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 12px 0;
+}
+
+.campo label,
+.cenario label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.campo small {
+  color: var(--cinza);
+}
+
+input,
+textarea {
+  font: inherit;
+  padding: 8px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  font: inherit;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--azul);
+  color: #fff;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.erro {
+  background: #fdecec;
+  border: 1px solid var(--erro);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 12px 0;
+  color: var(--erro);
+}
+
+.historia {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.historia .id {
+  margin: 0;
+  color: var(--cinza);
+  font-size: 0.8rem;
+}
+
+.cenario {
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  margin: 8px 0;
+}
+
+.cenario label {
+  display: block;
+  margin: 6px 0;
+}
+
+.invest {
+  list-style: none;
+  padding: 0;
+}
+
+.invest .ok strong {
+  color: var(--ok);
+}
+
+.invest .falha strong {
+  color: var(--erro);
+}
+
+.exportar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dependencias {
+  color: var(--cinza);
+  font-size: 0.9rem;
+}
+
+.abas {
+  display: flex;
+  gap: 4px;
+  margin: 20px 0 8px;
+  border-bottom: 2px solid var(--borda);
+}
+
+.abas button {
+  background: transparent;
+  color: var(--cinza);
+  border-radius: 6px 6px 0 0;
+  margin: 0;
+}
+
+.abas button[aria-selected='true'] {
+  background: var(--azul);
+  color: #fff;
+}
+
+.lacunas {
+  background: #fff8e5;
+  border: 1px solid #e0c36a;
+  border-radius: 8px;
+  padding: 4px 16px 12px;
+  margin: 16px 0;
+}
+
+.lacunas blockquote {
+  margin: 4px 0;
+  padding-left: 10px;
+  border-left: 3px solid #e0c36a;
+  color: var(--cinza);
+  font-style: italic;
+}
+
+.progresso {
+  color: var(--cinza);
+}
+
+.selo.local {
+  background: #e3f4e8;
+  border-color: #7bbf93;
+}
+
+select {
+  font: inherit;
+  padding: 8px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cobertura {
+  background: #eef4fb;
+  border: 1px solid #b7cde6;
+  border-radius: 8px;
+  padding: 4px 16px 12px;
+  margin: 16px 0;
+}
+
+.cobertura .percentual {
+  color: var(--cinza);
+  font-size: 0.85rem;
+}

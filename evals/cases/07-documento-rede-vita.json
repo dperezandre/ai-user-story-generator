@@ -1,0 +1,8 @@
+{
+  "id": "07-documento-rede-vita",
+  "tipo": "documento",
+  "arquivo": "examples/documento-rede-vita.md",
+  "esperado": {
+    "lacunasMin": 5
+  }
+}

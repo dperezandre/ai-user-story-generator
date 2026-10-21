@@ -1,0 +1,8 @@
+{
+  "id": "05-logistica-rastreio",
+  "tipo": "curto",
+  "entrada": "O cliente quer acompanhar a entrega em tempo real e receber um aviso quando o pedido sair para entrega ou houver atraso.",
+  "esperado": {
+    "gherkinMin": 2
+  }
+}

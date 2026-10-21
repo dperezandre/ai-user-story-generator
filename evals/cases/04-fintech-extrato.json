@@ -1,0 +1,8 @@
+{
+  "id": "04-fintech-extrato",
+  "tipo": "curto",
+  "entrada": "O cliente quer exportar o extrato dos últimos 90 dias em PDF e CSV para enviar à contabilidade.",
+  "esperado": {
+    "gherkinMin": 2
+  }
+}

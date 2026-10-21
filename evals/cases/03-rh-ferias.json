@@ -1,0 +1,8 @@
+{
+  "id": "03-rh-ferias",
+  "tipo": "curto",
+  "entrada": "O colaborador precisa solicitar férias pelo portal e o gestor aprovar ou recusar, com aviso automático ao RH quando houver aprovação.",
+  "esperado": {
+    "gherkinMin": 2
+  }
+}

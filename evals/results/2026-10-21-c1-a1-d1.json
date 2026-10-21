@@ -1,0 +1,143 @@
+{
+  "modelo": "claude-sonnet-5-5",
+  "origem": "Claude Code (C:\\Users\\dpere\\.local\\bin\\claude.exe)",
+  "versaoPrompts": "c1-a1-d1",
+  "aprovados": 8,
+  "total": 8,
+  "resultados": [
+    {
+      "id": "01-saude-agendamento",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 4,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 10
+      },
+      "erro": null,
+      "ms": 24322
+    },
+    {
+      "id": "02-ecommerce-cupom",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 5,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 12
+      },
+      "erro": null,
+      "ms": 23429
+    },
+    {
+      "id": "03-rh-ferias",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 5,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 10
+      },
+      "erro": null,
+      "ms": 22194
+    },
+    {
+      "id": "04-fintech-extrato",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 4,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 11
+      },
+      "erro": null,
+      "ms": 22591
+    },
+    {
+      "id": "05-logistica-rastreio",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 5,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel",
+          "pequena",
+          "testavel"
+        ],
+        "perguntas": 12
+      },
+      "erro": null,
+      "ms": 25510
+    },
+    {
+      "id": "06-saude-nao-sensivel",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 6,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel"
+        ],
+        "perguntas": 11
+      },
+      "erro": null,
+      "ms": 22552
+    },
+    {
+      "id": "07-documento-rede-vita",
+      "tipo": "documento",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "historias": 11,
+        "lacunas": 19,
+        "atendeLacunas": true,
+        "idsConsistentes": true
+      },
+      "erro": null,
+      "ms": 335200
+    },
+    {
+      "id": "08-documento-fidelidade",
+      "tipo": "documento",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "historias": 9,
+        "lacunas": 9,
+        "atendeLacunas": true,
+        "idsConsistentes": true
+      },
+      "erro": null,
+      "ms": 229131
+    }
+  ]
+}

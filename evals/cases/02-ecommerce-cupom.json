@@ -1,0 +1,8 @@
+{
+  "id": "02-ecommerce-cupom",
+  "tipo": "curto",
+  "entrada": "O cliente quer aplicar um cupom de desconto no carrinho e ver o valor final antes de pagar, com regras de validade e de cupom já usado.",
+  "esperado": {
+    "gherkinMin": 2
+  }
+}
