@@ -1,0 +1,163 @@
+{
+  "modelo": "claude-sonnet-5-5",
+  "origem": "Claude Code (C:\\Users\\dpere\\.local\\bin\\claude.exe)",
+  "versaoPrompts": "c2-a4-d4",
+  "aprovados": 9,
+  "total": 9,
+  "resultados": [
+    {
+      "id": "01-saude-agendamento",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 4,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 10
+      },
+      "erro": null,
+      "ms": 23363
+    },
+    {
+      "id": "02-ecommerce-cupom",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 5,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 11
+      },
+      "erro": null,
+      "ms": 24137
+    },
+    {
+      "id": "03-rh-ferias",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 5,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 9
+      },
+      "erro": null,
+      "ms": 23742
+    },
+    {
+      "id": "04-fintech-extrato",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 4,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "estimavel",
+          "pequena"
+        ],
+        "perguntas": 10
+      },
+      "erro": null,
+      "ms": 24074
+    },
+    {
+      "id": "05-logistica-rastreio",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 5,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel",
+          "pequena",
+          "testavel"
+        ],
+        "perguntas": 9
+      },
+      "erro": null,
+      "ms": 25822
+    },
+    {
+      "id": "06-saude-nao-sensivel",
+      "tipo": "curto",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "gherkinCount": 6,
+        "temCenarioDeErro": true,
+        "investReprovados": [
+          "independente",
+          "estimavel"
+        ],
+        "perguntas": 12
+      },
+      "erro": null,
+      "ms": 22263
+    },
+    {
+      "id": "07-documento-rede-vita",
+      "tipo": "documento",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "historias": 12,
+        "lacunas": 12,
+        "atendeLacunas": true,
+        "idsConsistentes": true,
+        "termosAusentes": [],
+        "semCodigo": true
+      },
+      "erro": null,
+      "ms": 134888
+    },
+    {
+      "id": "08-documento-fidelidade",
+      "tipo": "documento",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "historias": 9,
+        "lacunas": 8,
+        "atendeLacunas": true,
+        "idsConsistentes": true,
+        "termosAusentes": [],
+        "semCodigo": true
+      },
+      "erro": null,
+      "ms": 103461
+    },
+    {
+      "id": "09-prompt-implementacao-emprestimos",
+      "tipo": "documento",
+      "formatoValido": true,
+      "aprovado": true,
+      "score": {
+        "historias": 18,
+        "lacunas": 17,
+        "atendeLacunas": true,
+        "idsConsistentes": true,
+        "termosAusentes": [],
+        "semCodigo": true
+      },
+      "erro": null,
+      "ms": 219741
+    }
+  ]
+}
