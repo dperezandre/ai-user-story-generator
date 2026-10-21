@@ -48,6 +48,12 @@ describe('DocumentMode', () => {
     expect(outro.getAllByLabelText(/documento de requisitos/i).at(-1)).toHaveValue('texto do próprio usuário')
   })
 
+  it('o campo aceita documento de requisitos ou prompt de implementação e explica isso na dica', () => {
+    render(<DocumentMode client={new DemoClient()} demo={false} />)
+    expect(screen.getByLabelText(/documento de requisitos ou prompt de implementação/i)).toBeInTheDocument()
+    expect(screen.getByText(/prompt de implementação.*(stack|modelagem|telas)/i)).toBeInTheDocument()
+  })
+
   it('permite exportar cada história do épico no formato Azure DevOps', async () => {
     const user = userEvent.setup()
     render(<DocumentMode client={new DemoClient()} demo />)

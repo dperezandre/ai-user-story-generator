@@ -14,7 +14,7 @@ interface Caso {
   tipo: 'curto' | 'documento'
   entrada?: string
   arquivo?: string
-  esperado: { lacunasMin?: number; gherkinMin?: number }
+  esperado: { lacunasMin?: number; gherkinMin?: number; termos?: string[] }
 }
 
 const raiz = new URL('../', import.meta.url)
@@ -37,8 +37,8 @@ for (const caso of casos) {
     resultados.push({ id: caso.id, tipo: caso.tipo, formatoValido: r.ok, aprovado, score, erro: r.ok ? null : r.error.kind, ms: Date.now() - inicio })
   } else {
     const r = await generateEpic(entrada, client)
-    const score = r.ok ? scoreEpic(r.value, { lacunasMin: caso.esperado.lacunasMin ?? 0 }) : null
-    const aprovado = !!score && score.atendeLacunas && score.idsConsistentes
+    const score = r.ok ? scoreEpic(r.value, { lacunasMin: caso.esperado.lacunasMin ?? 0, termos: caso.esperado.termos }) : null
+    const aprovado = !!score && score.atendeLacunas && score.idsConsistentes && score.termosAusentes.length === 0 && score.semCodigo
     resultados.push({ id: caso.id, tipo: caso.tipo, formatoValido: r.ok, aprovado, score, erro: r.ok ? null : r.error.kind, ms: Date.now() - inicio })
   }
   const ultimo = resultados[resultados.length - 1]

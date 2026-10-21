@@ -11,13 +11,16 @@ export function scoreStory(s: Story) {
   }
 }
 
-export function scoreEpic(e: Epic, esperado: { lacunasMin: number }) {
+export function scoreEpic(e: Epic, esperado: { lacunasMin: number; termos?: string[] }) {
   const ids = new Set(e.stories.map((s) => s.id))
   const idsConsistentes = e.ordemSugerida.every((id) => ids.has(id)) && e.stories.every((s) => s.dependeDe.every((d) => ids.has(d)))
+  const texto = JSON.stringify({ stories: e.stories, lacunas: e.lacunas }).toLowerCase()
   return {
     historias: e.stories.length,
     lacunas: e.lacunas.length,
     atendeLacunas: e.lacunas.length >= esperado.lacunasMin,
     idsConsistentes,
+    termosAusentes: (esperado.termos ?? []).filter((t) => !texto.includes(t.toLowerCase())),
+    semCodigo: !JSON.stringify(e.stories).includes('```'),
   }
 }

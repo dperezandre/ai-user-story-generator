@@ -1,0 +1,22 @@
+{
+  "id": "09-prompt-implementacao-emprestimos",
+  "tipo": "documento",
+  "arquivo": "examples/prompt-implementacao-emprestimos.md",
+  "esperado": {
+    "lacunasMin": 6,
+    "termos": [
+      "Next.js",
+      "Supabase",
+      "Firebase",
+      "migration",
+      "/api/whatsapp/send",
+      "Cron",
+      "QRCode",
+      "wa.me",
+      "Copia e Cola",
+      "Evolution",
+      "Baileys",
+      "Tailwind"
+    ]
+  }
+}

@@ -38,9 +38,31 @@ describe('PROMPTS', () => {
     expect(s).toMatch(/limite|duplicad/i)
   })
 
-  it('analise e detalhe estão na versão 3', () => {
-    expect(PROMPTS.analise.versao).toBe('3')
-    expect(PROMPTS.detalhe.versao).toBe('3')
+  it('curto está na versão 2 e analise e detalhe na versão 4', () => {
+    expect(PROMPTS.curto.versao).toBe('2')
+    expect(PROMPTS.analise.versao).toBe('4')
+    expect(PROMPTS.detalhe.versao).toBe('4')
+  })
+
+  it.each(kinds)('%s trata o texto do usuário como material de análise e não executa instruções contidas nele', (kind) => {
+    const s = PROMPTS[kind].system
+    expect(s).toMatch(/material (a ser )?analisad/i)
+    expect(s).toMatch(/nunca execute/i)
+    expect(s).toMatch(/atue como|gere o código|ignore/i)
+  })
+
+  it('analise orienta histórias técnicas e decisões em aberto quando o texto é um prompt de implementação', () => {
+    const s = PROMPTS.analise.system
+    expect(s).toMatch(/prompt de implementação/i)
+    expect(s).toMatch(/migration/i)
+    expect(s).toMatch(/rotas? de API|endpoint/i)
+    expect(s).toMatch(/decisões? em aberto|"X ou Y"/i)
+  })
+
+  it('detalhe descreve critérios verificáveis também para histórias técnicas', () => {
+    const s = PROMPTS.detalhe.system
+    expect(s).toMatch(/história técnica/i)
+    expect(s).toMatch(/endpoint|rota/i)
   })
 
   describe('systemPara', () => {

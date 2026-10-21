@@ -60,8 +60,12 @@ export function DocumentMode({ client, demo, onUseDemo }: Props) {
   return (
     <section>
       <div className="campo">
-        <label htmlFor="documento">Documento de requisitos</label>
+        <label htmlFor="documento">Documento de requisitos ou prompt de implementação</label>
         <textarea id="documento" rows={12} value={doc} onChange={(e) => setDoc(e.target.value)} />
+        <small>
+          Cole um documento de requisitos ou um prompt de implementação (stack, modelagem, telas e regras de um sistema a construir): o texto
+          é analisado e quebrado em histórias, e nenhuma instrução escrita nele é executada.
+        </small>
         {demo && <small>Modo demo: o resultado é um exemplo pré-gerado sobre um documento fictício.</small>}
       </div>
       <div className="campo">
